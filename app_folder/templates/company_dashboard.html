@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Company Dashboard - Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <span class="logo">Placement Portal</span>
+        <div>
+            <a href="/company_dashboard" class="nav-link">Dashboard</a>
+            <a href="/logout" class="nav-link">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="success-msg">{{ messages[0] }}</div>
+        {% endif %}
+        {% endwith %}
+
+        <h1 class="dashboard-title">Company Dashboard</h1>
+
+        <div class="card section-margin">
+            <h3>Company Information</h3>
+            <div class="company-info">
+                <div class="company-info-left">
+                    <p><strong>Company Name:</strong> {{ name }}</p>
+                    <p><strong>Email:</strong> {{ company_email }}</p>
+                    <p><strong>Status:</strong> 
+                        {% if company_status == 'Approved' %}
+                            <span class="status-approved">Approved</span>
+                        {% elif company_status == 'Rejected' %}
+                            <span class="status-rejected">Rejected</span>
+                        {% else %}
+                            <span class="status-pending">Pending</span>
+                        {% endif %}
+                    </p>                </div>
+                <div class="company-info-right">
+                    <p><strong>HR Contact:</strong> {{ hr_contact or 'Not provided' }}</p>
+                    <p><strong>Website:</strong> {{ website or 'Not provided' }}</p>
+
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a href="/post_job" class="create-job-btn">+ Create New Placement Job</a>
+        </div>
+
+        <div class="card">
+            <h3>My Placement Jobs ({{ jobs|length }})</h3>
+
+            {% if jobs %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Job Title</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>Applications</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <td>{{ job[0] }}</td>
+                        <td><strong>{{ job[2] }}</strong></td>
+                        <td>{{ job[5] }}</td>
+                        <td>
+                            {% if job[6] == 'Approved' %}
+                            <span class="status-approved">Approved</span>
+                            {% else %}
+                            <span class="status-pending">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ job[7] if job|length > 7 else 0 }}</td>
+                        <td>
+                            <a href="/view_applicants/{{ job[0] }}" class="btn-view">View</a>
+                            {% if job[6] != 'Approved' %}
+                            <a href="/edit_job/{{ job[0] }}" class="btn-edit">Edit</a>
+                            <a href="#confirm-delete-{{ job[0] }}" class="btn-delete">Delete</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="empty-state">No placement jobs created yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% for job in jobs %}
+{% if job[4] != 'Approved' %}
+<div class="confirm-overlay" id="confirm-delete-{{ job[0] }}">
+    <div class="confirm-box">
+        <div class="confirm-box__icon">🗑️</div>
+        <div class="confirm-box__title">Delete Job?</div>
+        <div class="confirm-box__msg">Are you sure you want to delete <strong>{{ job[2] }}</strong>? This cannot be undone.</div>
+        <div class="confirm-box__actions">
+            <a href="#" class="confirm-box__btn confirm-box__btn--cancel">Cancel</a>
+            <a href="/delete_job/{{ job[0] }}" class="confirm-box__btn confirm-box__btn--danger">Yes, Delete</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+</body>
+
+</html>

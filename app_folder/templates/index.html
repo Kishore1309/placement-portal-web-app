@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <a href="/login" class="nav-link">Login</a>
+</div>
+
+<div class="container">
+
+    <div class="card hero">
+        <h1>Welcome to Placement Portal</h1>
+        <p>Streamline your campus recruitment process easily.</p>
+
+        <div class="btn-group">
+            <a href="/login" class="btn" style="background: #2d6cdf; color: white;">Login</a>
+            <a href="/register" class="btn" style="background: #28a745; color: white;">Register as Student</a>
+            <a href="/company_register" class="btn" style="background: #17a2b8; color: white;">Register as Company</a>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <h3>Admin</h3>
+            <p>Manage students, companies and approvals.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Companies</h3>
+            <p>Create jobs and hire students.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Students</h3>
+            <p>Apply for jobs and track status.</p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

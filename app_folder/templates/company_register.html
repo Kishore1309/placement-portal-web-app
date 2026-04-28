@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Registration - Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <a href="/login" class="nav-link">Login</a>
+</div>
+
+<div class="container">
+    <div class="company-register-card">
+        <div class="company-register-title">Company Registration</div>
+        <div class="company-register-sub">Register your organization for campus recruitment</div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="success-msg">{{ messages[0] }}</div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label>Company Name *</label>
+                <input type="text" name="name" placeholder="e.g., Google, Microsoft" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address *</label>
+                <input type="email" name="email" placeholder="contact@company.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password *</label>
+                <input type="password" name="password" placeholder="Create a strong password" required>
+            </div>
+
+            <div class="form-group">
+                <label>HR Contact Number</label>
+                <input type="text" name="hr_contact" placeholder="Optional">
+            </div>
+
+            <div class="form-group">
+                <label>Company Website</label>
+                <input type="url" name="website" placeholder="https://company.com">
+            </div>
+
+            <button type="submit" class="register-btn">Register Company</button>
+        </form>
+
+        <div class="company-register-footer">
+            Already have an account? <a href="/login">Login here</a><br>
+            <span class="helper-text">Want to register as student? <a href="/register">Student Registration</a></span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

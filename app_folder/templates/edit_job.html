@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Placement Job</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <a href="/company_dashboard" class="nav-link">Dashboard</a>
+</div>
+
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="success-msg">{{ messages[0] }}</div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="card">
+        <h2>Edit Placement Job</h2>
+
+        <form method="POST">
+            <div class="form-group">
+                <label>Job Title *</label>
+                <input type="text" name="title" value="{{ job[2] }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Job Description</label>
+                <textarea name="description" rows="5">{{ job[3] or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Eligibility Criteria</label>
+                <textarea name="eligibility" rows="3">{{ job[4] or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Application Deadline *</label>
+                <input type="date" name="deadline" value="{{ job[5] }}" required>
+            </div>
+
+            <div class="btn-group" style="margin-top: 20px;">
+                <button type="submit" class="btn-approve">Save Changes</button>
+                <a style="margin-top: 20px;" href="/company_dashboard" class="btn-reject">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

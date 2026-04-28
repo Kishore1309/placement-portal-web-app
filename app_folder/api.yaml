@@ -1,0 +1,308 @@
+openapi: 3.0.0
+info:
+  title: Placement Portal API
+  version: 1.0.0
+  description: API documentation for Placement Portal (Students, Companies, Admin)
+
+servers:
+  - url: http://localhost:4000
+
+paths:
+
+  /:
+    get:
+      summary: Home Page
+      responses:
+        '200':
+          description: Home page loaded
+
+  /register:
+    post:
+      summary: Register Student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                phone:
+                  type: string
+                department:
+                  type: string
+                year:
+                  type: string
+                cgpa:
+                  type: number
+      responses:
+        '200':
+          description: Student registered
+
+  /company_register:
+    post:
+      summary: Register Company
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                hr_contact:
+                  type: string
+                website:
+                  type: string
+      responses:
+        '200':
+          description: Company registered
+
+  /login:
+    post:
+      summary: Login (Student / Company / Admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [role, email, password]
+              properties:
+                role:
+                  type: string
+                  enum: [student, company, admin]
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+
+  /dashboard:
+    get:
+      summary: Student Dashboard
+      responses:
+        '200':
+          description: Dashboard data
+
+  /logout:
+    get:
+      summary: Logout User
+      responses:
+        '200':
+          description: Logged out
+
+  /company_dashboard:
+    get:
+      summary: Company Dashboard
+      responses:
+        '200':
+          description: Company dashboard data
+
+  /post_job:
+    post:
+      summary: Post a Job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, description, eligibility, deadline]
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                eligibility:
+                  type: string
+                deadline:
+                  type: string
+      responses:
+        '200':
+          description: Job created
+
+  /jobs:
+    get:
+      summary: Get All Jobs
+      responses:
+        '200':
+          description: List of jobs
+
+  /apply/{job_id}:
+    get:
+      summary: Apply for Job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Applied successfully
+
+  /view_applicants/{job_id}:
+    get:
+      summary: View Applicants for a Job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of applicants
+
+  /edit_job/{job_id}:
+    post:
+      summary: Edit Job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                eligibility:
+                  type: string
+                deadline:
+                  type: string
+      responses:
+        '200':
+          description: Job updated
+
+  /delete_job/{job_id}:
+    get:
+      summary: Delete Job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Job deleted
+
+  /view_applicants_all:
+    get:
+      summary: View All Applicants (Company)
+      responses:
+        '200':
+          description: All applicants data
+
+  /update_status/{app_id}/{status}:
+    get:
+      summary: Update Application Status
+      parameters:
+        - name: app_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status updated
+
+  /admin_dashboard:
+    get:
+      summary: Admin Dashboard
+      responses:
+        '200':
+          description: Admin data
+
+  /approve_company/{id}:
+    get:
+      summary: Approve Company
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /reject_company/{id}:
+    get:
+      summary: Reject Company
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /approve_job/{job_id}:
+    get:
+      summary: Approve Job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /reject_job/{job_id}:
+    get:
+      summary: Reject Job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /admin_students:
+    get:
+      summary: Get All Students
+
+  /admin_companies:
+    get:
+      summary: Get All Companies
+
+  /admin_applications:
+    get:
+      summary: Get All Applications
+
+  /admin_jobs:
+    get:
+      summary: Get All Jobs
+
+  /job_details/{job_id}:
+    get:
+      summary: Get Job Details
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer

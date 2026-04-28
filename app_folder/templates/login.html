@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <a href="/" class="nav-link">Home</a>
+</div>
+
+<div class="auth-card">
+    <div class="auth-title">Login</div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% set msg = messages[0] %}
+            {% if 'success' in msg.lower() or 'successful' in msg.lower() %}
+                <div class="success-msg">{{ msg }}</div>
+            {% else %}
+                <div class="error-msg">{{ msg }}</div>
+            {% endif %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/login">
+        <div class="form-group">
+            <label>Select Role</label>
+            <select name="role" required>
+                <option value="student">Student</option>
+                <option value="company">Company</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Email / Username</label>
+            <input type="text" name="email" required>
+            <small class="form-help">Admin: use username | Others: use email</small>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Login - Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <a href="/" class="nav-link">Home</a>
+</div>
+
+<div class="container">
+    <div class="auth-card">
+        <div class="auth-title">Company Login</div>
+        <div class="auth-sub">Login to your company account</div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="error-msg">{{ messages[0] }}</div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="company@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+
+            <input type="hidden" name="role" value="company">
+
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+
+        <div class="auth-footer">
+            Don't have an account? <a href="/company_register">Register as Company</a><br>
+            <span class="helper-text">Student? <a href="/login">Student Login</a></span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

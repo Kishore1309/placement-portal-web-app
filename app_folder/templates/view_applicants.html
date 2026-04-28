@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Applicants - {{ job[2] if job else 'Applicants' }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <div>
+        <a href="/company_dashboard" class="nav-link">Dashboard</a>
+        <a href="/logout" class="nav-link">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="success-msg">{{ messages[0] }}</div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="card">
+        <h2>Applicants for: {{ job[2] if job else 'Job' }}</h2>
+        
+        {% if applicants %}
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for applicant in applicants %}
+                <tr>
+                    <td>{{ applicant[1] }}</td>
+                    <td>{{ applicant[2] }}</td>
+                    <td>
+                        {% if applicant[3] == 'Selected' %}
+                            <span class="status-approved">Selected</span>
+                        {% elif applicant[3] == 'Rejected' %}
+                            <span class="status-rejected">Rejected</span>
+                        {% else %}
+                            <span class="status-pending">{{ applicant[3] }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="#confirm-select-{{ applicant[0] }}" class="btn-approve">Select</a>
+                        <a href="#confirm-reject-{{ applicant[0] }}" class="btn-reject">Reject</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="empty-state">No applicants have applied for this job yet.</p>
+        {% endif %}
+        
+        <div style="margin-top: 20px;">
+            <a href="/company_dashboard" class="btn">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+{% if applicants %}
+{% for applicant in applicants %}
+<div class="confirm-overlay" id="confirm-select-{{ applicant[0] }}">
+    <div class="confirm-box">
+        <div class="confirm-box__icon">✅</div>
+        <div class="confirm-box__title">Select Student?</div>
+        <div class="confirm-box__msg">Are you sure you want to select <strong>{{ applicant[1] }}</strong>?</div>
+        <div class="confirm-box__actions">
+            <a href="#" class="confirm-box__btn confirm-box__btn--cancel">Cancel</a>
+            <a href="/update_status/{{ applicant[0] }}/Selected" class="confirm-box__btn confirm-box__btn--confirm">Yes, Select</a>
+        </div>
+    </div>
+</div>
+
+<div class="confirm-overlay" id="confirm-reject-{{ applicant[0] }}">
+    <div class="confirm-box">
+        <div class="confirm-box__icon">🚫</div>
+        <div class="confirm-box__title">Reject Student?</div>
+        <div class="confirm-box__msg">Are you sure you want to reject <strong>{{ applicant[1] }}</strong>?</div>
+        <div class="confirm-box__actions">
+            <a href="#" class="confirm-box__btn confirm-box__btn--cancel">Cancel</a>
+            <a href="/update_status/{{ applicant[0] }}/Rejected" class="confirm-box__btn confirm-box__btn--danger">Yes, Reject</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+</body>
+</html>

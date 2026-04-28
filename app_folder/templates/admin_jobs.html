@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manage Jobs - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="navbar">
+        <span class="logo">Placement Portal</span>
+        <div class="nav-links">
+            <a href="/admin_dashboard">Dashboard</a>
+            <a href="/admin_students">Students</a>
+            <a href="/admin_companies">Companies</a>
+            <a href="/admin_applications">Applications</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="page-title">Manage Jobs</h1>
+        <div class="card">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <td>{{ job[0] }}</td>
+                        <td>{{ job[2] }}</td>
+                        <td>{{ job[8] if job|length > 8 else 'N/A' }}</td>
+                        <td>
+                            {% if job[7] == 'Approved' %}
+                            <span class="status-approved">Approved</span>
+                            {% elif job[7] == 'Pending' %}
+                            <span class="status-pending">Pending</span>
+                            {% else %}
+                            <span class="status-rejected">Rejected</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if job[7] == 'Pending' %}
+                            <a href="/approve_job/{{ job[0] }}" class="btn-approve">Approve</a>
+                            <a href="/reject_job/{{ job[0] }}" class="btn-reject">Reject</a>
+                            {% elif job[7] == 'Approved' %}
+                            <a href="/reject_job/{{ job[0] }}" class="btn-reject">Reject</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

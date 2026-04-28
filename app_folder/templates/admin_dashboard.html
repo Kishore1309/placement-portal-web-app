@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Dashboard - Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <span class="logo">Placement Portal</span>
+        <div class="nav-links">
+            <a href="/admin_dashboard">Dashboard</a>
+            <a href="/admin_students">Students</a>
+            <a href="/admin_companies">Companies</a>
+            <a href="/admin_applications">Applications</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">Admin Dashboard</h1>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>{{ students }}</h3>
+                <p>Total Students</p>
+            </div>
+            <div class="stat-card">
+                <h3>{{ companies }}</h3>
+                <p>Total Companies</p>
+            </div>
+            <div class="stat-card">
+                <h3>{{ jobs }}</h3>
+                <p>Placement Jobs</p>
+            </div>
+            <div class="stat-card">
+                <h3>{{ applications }}</h3>
+                <p>Applications</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 25px;">
+            <div class="section-header">
+                <h3>Pending Company Approvals ({{ pending_companies|length }})</h3>
+                <a href="/admin_companies">View All</a>
+            </div>
+
+            {% if pending_companies %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Company Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in pending_companies %}
+                    <tr>
+                        <td>{{ c[0] }}</td>
+                        <td>{{ c[1] }}</td>
+                        <td>{{ c[2] }}</td>
+                        <td>
+                            <a href="/approve_company/{{ c[0] }}" class="btn-approve">Approve</a>
+                            <a href="/reject_company/{{ c[0] }}" class="btn-reject">Reject</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="empty-state">No pending company approvals.</p>
+            {% endif %}
+        </div>
+
+        <div class="card" style="margin-bottom: 25px;">
+            <div class="section-header">
+                <h3>Pending Job Approvals ({{ pending_jobs|length }})</h3>
+                <a href="/admin_jobs">View All</a>
+            </div>
+
+            {% if pending_jobs %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in pending_jobs %}
+                    <tr>
+                        <td>{{ job[0] }}</td>
+                        <td>{{ job[2] }}</td>
+                        <td>{{ job[8] if job|length > 8 else 'N/A' }}</td>
+                        <td>{{ job[3][:50] }}{% if job[3]|length > 50 %}...{% endif %}</td>
+                        <td>
+                            <a href="/approve_job/{{ job[0] }}" class="btn-approve">Approve</a>
+                            <a href="/reject_job/{{ job[0] }}" class="btn-reject">Reject</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="empty-state">No pending job approvals.</p>
+            {% endif %}
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="card">
+            <h3 style="font-size: 18px; margin-bottom: 15px;">Quick Actions</h3>
+            <div class="quick-actions">
+                <a href="/admin_students" class="quick-btn blue">Manage Students</a>
+                <a href="/admin_companies" class="quick-btn green">Manage Companies</a>
+                <a href="/admin_applications" class="quick-btn teal">View Applications</a>
+                <a href="/admin_jobs" class="quick-btn yellow">Manage Jobs</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

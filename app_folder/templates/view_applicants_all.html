@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Applicants - Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">🏢Placement Portal</span>
+    <div>
+        <a href="/company_dashboard" class="nav-link">Dashboard</a>
+        <a href="/logout" class="nav-link">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>All Applications</h2>
+        
+        {% if data %}
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Job Title</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>
+                        {% if row[3] == 'Selected' %}
+                            <span class="status-approved">Selected</span>
+                        {% elif row[3] == 'Rejected' %}
+                            <span class="status-rejected">Rejected</span>
+                        {% else %}
+                            <span class="status-pending">{{ row[3] }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/update_status/{{ row[0] }}/Selected" class="btn-approve">Select</a>
+                        <a href="/update_status/{{ row[0] }}/Rejected" class="btn-reject">Reject</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="empty-state">No applications found.</p>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

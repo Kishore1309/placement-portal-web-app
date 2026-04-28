@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Jobs - Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <div>
+        <a href="/dashboard" class="nav-link" style="margin-right: 15px;">Dashboard</a>
+        <a href="/logout" class="nav-link">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1 style="margin-bottom: 25px; font-size: 24px;">Available Jobs</h1>
+    
+    <div class="jobs-grid">
+        {% if jobs %}
+            {% for job in jobs %}
+            <div class="job-card">
+                <div class="job-title">{{ job[2] }}</div>
+                <div class="job-description">{{ job[3] }}</div>
+                <div class="job-footer">
+                    <span class="job-status">Active</span>
+                    {% if job[0] in applied_job_ids %}
+                        <span class="btn-applied">Applied</span>
+                    {% else %}
+                        <a href="/apply/{{ job[0] }}" class="apply-btn">Apply Now</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-jobs">
+                <p>No jobs available at the moment.</p>
+                <p style="margin-top: 10px;">Please check back later!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

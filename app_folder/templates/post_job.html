@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Placement Job</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <a href="/company_dashboard" class="nav-link">Dashboard</a>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Create New Placement Job</h2>
+
+        <form method="POST">
+
+            <label>Job Title</label>
+            <input type="text" name="title" required>
+
+            <label>Job Description</label>
+            <textarea name="description"></textarea>
+
+            <label>Eligibility Criteria</label>
+            <textarea name="eligibility"></textarea>
+
+            <label>Application Deadline</label>
+            <input type="date" name="deadline" required>
+
+            <button type="submit">Create Job</button>
+
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

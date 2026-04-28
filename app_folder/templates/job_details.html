@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Details - Placement Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <span class="logo">Placement Portal</span>
+    <a href="/jobs" class="nav-link">Back to Jobs</a>
+</div>
+
+<div class="job-container">
+    <div class="job-card">
+        <h1 class="job-title">{{ job[2] }}</h1>
+        <p class="job-company">{{ job[8] }}</p>
+
+        <div class="job-details-row">
+            <div class="detail-item">
+                <div class="detail-label">Minimum CGPA</div>
+                <div class="detail-value">{{ job[5] }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Application Deadline</div>
+                <div class="detail-value">{{ job[6] }}</div>
+            </div>
+        </div>
+
+        <div class="job-description-section">
+            <h3 class="section-title">About This Role</h3>
+            <p class="section-content">{{ job[3] }}</p>
+        </div>
+
+        <div class="action-buttons">
+            {% if already_applied %}
+                <span class="btn-applied-large">Already Applied</span>
+            {% else %}
+                <a href="/apply/{{ job[0] }}" class="btn-apply">Apply Now</a>
+            {% endif %}
+            <a href="/jobs" class="btn-back">Browse Jobs</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

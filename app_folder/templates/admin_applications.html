@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>All Applications - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="navbar">
+        <span class="logo">Placement Portal</span>
+        <div class="nav-links">
+            <a href="/admin_dashboard">Dashboard</a>
+            <a href="/admin_students">Students</a>
+            <a href="/admin_companies">Companies</a>
+            <a href="/admin_applications">Applications</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="page-title">All Applications</h1>
+        <div class="card">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student</th>
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>{{ app[0] }}</td>
+                        <td>{{ app[4] }}</td>
+                        <td>{{ app[5] }}</td>
+                        <td>{{ app[6] }}</td>
+                        <td>
+                            {% if app[3] == 'Selected' %}
+                            <span class="status-approved">Selected</span>
+                            {% elif app[3] == 'Rejected' %}
+                            <span class="status-rejected">Rejected</span>
+                            {% else %}
+                            <span class="status-pending">{{ app[3] }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
